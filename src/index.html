@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BarMon</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+ <body>
+    <header>
+        <h1>Diócesis Barbastro y Monzón</h1>
+    </header>
+    <h2>Busca por población</h2>
+ <input type="text" id="search-input" placeholder="Buscar por poblacion...">
+ <button id="search-button">Buscar</button>
+ <div id="results"></div>
+
+ <script>
+      const searchInput = document.getElementById('search-input');
+      const searchButton = document.getElementById('search-button');
+      const resultsDiv = document.getElementById('results');
+
+      searchButton.addEventListener('click', async () => {
+        const query = searchInput.value;
+        const response = await fetch(`/search?q=${query}`);
+        const data = await response.json();
+
+        resultsDiv.innerHTML = ''; // Clear previous results
+
+        if (data.length === 0) {
+ resultsDiv.innerHTML = '<p>No se encontraron resultados.</p>';
+        } else {
+ data.forEach(item => {
+ const itemDiv = document.createElement('div');
+ itemDiv.innerHTML = `
+ <p><strong>Población:</strong> ${item.poblacion}</p>
+ <p><strong>Nombre:</strong> ${item.nombre}</p>
+ <p><strong>Teléfono:</strong> ${item.telefono}</p>
+ <p><strong>Unidad:</strong> ${item.unidad}</p>
+ <p><strong>Moderador:</strong> ${item.moderador}</p>
+ <p><strong>Teléfono:</strong> ${item.telmoderador}</p>
+ <p><strong>Arciprestazgo:</strong> ${item.arcipestazgo}</p>
+ <p><strong>Arcipreste:</strong> ${item.arcipreste}</p>
+ <p><strong>Teléfono:</strong> ${item.telarcipreste}</p>
+ <p><strong>Animador:</strong> ${item.animador}</p>
+ <p><strong>Teléfono:</strong> ${item.telanimador}</p>
+ <hr>
+ `;
+ resultsDiv.appendChild(itemDiv);
+          });
+        }
+      });
+ </script>
+  </body>
+</html>
